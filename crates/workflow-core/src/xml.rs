@@ -4,7 +4,7 @@
 //! example Forge's `service=`) are read by the host from [`parse_element`]'s raw tree; the generic
 //! node model intentionally ignores them.
 
-use std::collections::{BTreeMap, BTreeSet};
+use std::collections::BTreeMap;
 
 use crate::{
     DecisionArm, DefinitionStatus, NodeDefinition, ProcessDefinition, ProcessGraph, ProcessOutcome,
