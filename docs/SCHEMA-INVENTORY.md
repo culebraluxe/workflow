@@ -45,3 +45,19 @@ No row in `schema_migration` records `jobs` or a workflow baseline. The engine c
 created by the app's `000_forge_base_schema.sql` and follow-on migrations; `jobs` is external. If a
 fresh-DB replay is ever needed, generate the DDL from live at that time and apply it through the one
 ledger/applier (W-3); do not run anything against DEV/PROD.
+
+## Provenance check — original TypeScript schema
+
+The original `workflow-engine/scripts/schema.sql` (same file in both Downloads copies) creates exactly:
+
+`process_definitions`, `process_instances`, `tokens`, `tasks`, `jobs`, `process_events` (+ three
+partitions). **Six tables, no `process_commands` and no singular `task`.**
+
+Current live adds `process_commands` (engine command intents/results) — so **7 engine tables today** —
+plus the three app/RE-host-written `workflow_*` tables above.
+
+`task` (singular) is **not** the engine's task table. Live `task` has `title`, `detail`, `person_id`,
+`property_id`, `deal_id`, `assigned_user_id`, `task_kind`, `priority`, `snoozed_until`, `outcome`,
+`workstream`, `category` — the app's CRM task, written by `db::TaskDao`. The engine's human-task table
+is `tasks` (`process_instance_id`, `token_id`, `assignee`, `candidates`, `form_key`, `form_data`,
+`node_id`), matching the original schema.
